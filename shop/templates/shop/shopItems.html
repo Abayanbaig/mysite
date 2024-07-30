@@ -1,0 +1,65 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %}This is shop{% endblock %}
+
+
+
+{% block body %}
+{% load static %}
+
+  <!-- Header -->
+  <header class="w3-container w3-center w3-padding-48 " >
+    <h1 class="w3-xxxlarge" style="font-family: Oswald"><b>Mizaan Classic</b></h1>
+    <h6>Welcome to the printing <span class="w3-tag">Wearhouse</span></h6>
+  </header>
+
+<div class="container my-5">
+  <p class="text-center mb-4">"Stand Out with Unique T-Shirts and Custom-Printed Treasures!"</p>
+  <div class="row justify-content-center">
+      {% for i in allitems%}
+
+        <!-- Buying popup -->
+        <div class="modal fade" id="pr{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Place Order</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                      <div class="modal-body text justify">
+                          <h6>Order Details:</h6> {{i.product_name}}, {{i.desc}}, colour - {{i.color}}. <strong> Price :</strong> &#8377;{{i.price}}
+                      </div>
+                  <div class="modal-footer">
+                        <a href="/shop/order/{{i.id}}" class=" ml-3 mr-2"> <button  id="" class="btn btn-warning w-100 w-md-auto  ">Confirm Order </button>  </a>
+                  </div>
+              </div>
+          </div>
+        </div>
+
+      
+      <div class="col-6 col-sm-6 col-md-3 mb-3">
+          <div class="card">
+            <a href="/shop/items/{{i.id}}"><img  id="qv{{i.id}}" src="/media/{{i.image}}" class="card-img-top fitimg" alt="{{i.product_name}}"></a>
+              <div class="card-body   ">
+                  <h5 class="card-title">{{i.product_name}}</h5>
+
+                  <p class="card-text">{{ i.desc|slice:"0:29" }}...</p>
+              
+                  <p class="text-muted"> <s>&#8377; {{ i.discount }}.00</s> </p>
+                  <p class="card-text">Price: &#8377; {{ i.price }}.00</p>
+
+                  <div class="button-container d-flex flex-column flex-md-row gap-2">
+                    <button id="pr{{i.id}}"  class="btn btn-primary  w-md-auto mb-2 mb-md-0 mr-1 ml-1 cart1" data-toggle="modal" data-target="#myModal">Add to Cart </button> 
+
+                    <button  class="btn btn-warning w-md-auto mb-2 mb-md-0 mr-1 ml-1" data-toggle="modal" data-target="#pr{{i.id}}">&nbsp;Buy now&nbsp;</button>
+
+                  </div> 
+              </div>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+     <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>{% block title %}{% endblock %}</title>
+
+<style>
+    .btn-custom-outline-success {
+      color: White; /* Success color */
+      border: 1px solid #fff; /* White outline */
+
+  }
+  
+  .btn-custom-outline-success:hover {
+      color: #fff;
+
+      background-color: #f7b20e ;
+      border-color: White;
+  }
+
+  
+/* success add to cart popup */
+.modal-content {
+  border-radius: 15px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.modal-header {
+  border-bottom: none;
+  justify-content: flex-end;
+}
+
+.close {
+  color: #000;
+  font-size: 1.5rem;
+}
+
+/* Basic fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.text-white a {
+  color: #ffffff;
+  text-decoration: none;
+}
+.text-white a:hover {
+  text-decoration: underline;
+}
+
+body{
+  background-color:#F8F8F8
+}
+
+.fitimg{
+  width: 100%;
+  height: 200px; /* Set a fixed height for all images */
+  object-fit: cover; /* Ensure images cover the area without distortion */
+
+}
+
+.image-container {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+}
+
+.image-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+body{
+  background-color:#F8F8F8
+} 
+
+
+.carousel-indicators .active {
+  background-color: yellow;
+}
+
+  </style>
+
+  </head>
+
+<body>
+  
+
+  {% load static %}
+
+{% block navbar %}
+  
+  <nav class="navbar navbar-expand-lg navbar-dark " style=' background-color:#008080;'>
+    
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button> 
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/shop">Home <span class="sr-only">(current)</span></a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="/shop/tracker">Tracker</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/shop/about">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/shop/contact">Contact</a>
+        </li>
+      </ul>   
+      <a class="nav-link" href="/shop/addcart">
+        <button type="button" class="btn btn-custom-outline-success my-2 my-sm-0 mx-1" data-toggle="tooltip" data-placement="bottom" title="Click to check added items">
+        Cart(<span id="cart1">0</span>)  
+        </button>
+      </a>
+    </div >
+   
+    <a class="navbar-brand " href="/shop" ><i class="fa fa-shopping-cart"></i>  &nbsp; &Mellintrf;izaan</a> 
+    
+
+    </nav>
+  {% endblock %}
+
+  <div class="container mt-5">
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!-- Modal Body -->
+          <div class="modal-body text-center">
+              <h4 style="color: #28a745;" id="success"></h4>
+
+            <p id="successful"></p>
+
+          </div>
+          <!-- Modal Footer -->
+          <div class="modal-footer  d-flex justify-content-center w-100">
+            <button type="button" class="btn btn-warning w-50" data-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+      <!-- The Modal -->
+      <div class="modal fade" id="priv">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Privacy Policy</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+      
+                <div class="modal-body">   
+                   <p>Effective Date: [1-Aug-2024]</p>
+                  <p>Thank you for choosing <strong>Mizaan Classic</strong> for your custom T-shirt printing needs. This Privacy Policy outlines how we collect, use, and safeguard your personal information when you visit our website, place orders, or interact with us in any way.</p>
+                  <h5>1. Information We Collect</h5>
+                  <p><strong>Personal Information:</strong> When you place an order or register on our website, we may collect personal details such as your name, email address, phone number, and shipping address.</p>
+                    <p><strong>Payment Information:</strong> To process orders, we collect payment details such as credit card information. We use secure payment processing services and do not store credit card information on our servers.</p>
+                    <p><strong>Usage Data:</strong> We collect information about how you interact with our website, such as IP addresses, browser types, pages visited, and timestamps.</p>
+                       <h5>2. How We Use Your Information</h5>
+                       <p><strong>Order Fulfillment:</strong> We use your personal information to process and fulfill your orders, communicate with you about your orders, and provide customer support.</p>
+                       <p><strong>Marketing Communications:</strong> With your consent, we may send you promotional emails about our products, special offers, or other updates. You can opt-out of these communications at any time.</p>
+                       <p><strong>Improving Our Services:</strong> We analyze usage data to improve our website, services, and user experience.</p>
+                     <h5>3. Sharing Your Information</h5>
+                     <p><strong>Third-Party Service Providers:</strong> We may share your information with third-party service providers who assist us in operating our website, conducting our business, or servicing you, as long as those parties agree to keep this information confidential.</p>
+                     <p><strong>Legal Compliance:</strong> We may disclose your information as required by law or to protect our rights and interests.</p>
+                      <h5>4. Data Security</h5>
+                  <p>We implement reasonable security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction.</p>
+                  <h5>5. Your Rights</h5>
+                  <p>You have the right to access, correct, or delete your personal information. You may also request a copy of the data we hold about you.</p>
+                  <h5>6. Changes to This Policy</h5>
+                  <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
+                  <h5>7. Contact Us</h5>
+                  <p>If you have any questions about this Privacy Policy or our practices, please contact us at <a href="/shop/contact">Click here</a>.</p>
+                  
+                  <p><b>Copyright Disclaimer:</b> The images and icons used on this website are sourced from Unsplash, Freepik, and DeepAI. All visual content is the property of its 
+                    respective owners. While we believe these assets are available for free use under the respective platforms' licenses, we acknowledge the ownership of the original creators.
+                      If you are the owner of any content and believe it has been used inappropriately, please contact us at [your email address].
+                       We will promptly remove the material in question.</p>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% block body %}{% endblock %}
+
+  
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    {% block js %}
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        let cart = getCartData();
+        updateCartDisplay();
+        document.getElementById('cart1').innerHTML = Object.keys(cart).length;
+    
+        // Clear Cart button handler
+        const clearCartBtn = document.getElementById('clearCartBtn');
+        if (clearCartBtn) {
+          clearCartBtn.addEventListener('click', () => {
+            localStorage.removeItem('cart1');
+            cart = {}; // Reset the cart object
+            updateCartDisplay();
+            document.getElementById('cart1').innerHTML = Object.keys(cart).length;
+               // Check if the cart is empty and display the success message
+
+          });
+            // Check if the cart is empty and display the success message
+            if (Object.keys(cart).length === 0) {
+              
+              document.getElementById("shopNow").innerHTML = '<a class="btn btn-warning" href="/shop">Shop now</a>';
+              }
+          }
+
+        // Add to Cart button handler
+        document.querySelectorAll('.cart1').forEach(button => {
+          button.addEventListener('click', () => {
+            console.log('clicked');
+            const idstr = button.id.toString();
+            console.log(idstr);
+    
+
+            if (!cart[idstr]) {
+              cart[idstr] = 1;
+              localStorage.setItem('cart1', JSON.stringify(cart));
+              document.getElementById('cart1').innerHTML = Object.keys(cart).length;
+              updateCartDisplay();
+              
+              document.getElementById("success").innerHTML = "<b>Successful</b>";
+              document.getElementById("successful").innerHTML = "Your product was successfully added to the cart!";
+            } else {
+              document.getElementById("success").innerHTML = "<b  >Already Added</b>";
+              document.getElementById("successful").innerHTML = "Your product was already added to the cart!";
+            }
+          });
+        });
+    
+        // Remove from Cart button handler
+        document.querySelectorAll('.btn-danger').forEach(button => {
+          button.addEventListener('click', () => {
+            const idstr = button.id.replace('del-', '');
+            if (cart[idstr]) {
+              delete cart[idstr];
+              localStorage.setItem('cart1', JSON.stringify(cart));
+              updateCartDisplay();
+              document.getElementById('cart1').innerHTML = Object.keys(cart).length;
+            }
+            
+          });
+        });
+      });
+    
+      // Function to get cart data from localStorage
+      function getCartData() {
+        return JSON.parse(localStorage.getItem('cart1')) || {};
+      }
+    
+      // Function to update the cart display in HTML
+      function updateCartDisplay() {
+        const cart = getCartData();
+        const cartItemsDisplay = document.getElementById('cartItemsDisplay');
+        if (!cartItemsDisplay) return;
+    
+        cartItemsDisplay.innerHTML = ''; // Clear previous display
+    
+        const cartIDs = Object.keys(cart).map(key => key.replace('pr', ''));
+        cartIDs.forEach((id, index) => {
+        //  cartItemsDisplay.innerHTML += `<p><b>${index + 1}.</b> Item ID: ${id}, Quantity: ${cart['pr' + id]}</p>`;
+
+        });
+    
+        displayRelatedProducts(cartIDs);
+      }
+    
+      // Function to display related products based on cart items
+      function displayRelatedProducts(cartIDs) {
+        const cartIDSet = new Set(cartIDs);
+    
+        document.querySelectorAll('.related-product').forEach(product => {
+          const productID = product.dataset.id;
+    
+          if (cartIDSet.has(productID)) {
+            product.style.display = "block"; // Show the product
+          } else {
+            product.style.display = "none"; // Hide the product
+          }
+        });
+      }
+    </script>
+    {% endblock %}
+    
+    <footer>
+      {% block footer %}
+      <div class="" style="  background-color: #343a40;   width: 100%; height: 3px; "></div>
+      <footer style="background-color: #027474;" class=" text-white pt-4 ">
+        <div class="container" >
+          <div class="row mb-3">
+            <div class="col-md-12">
+              <h5>Our Story</h5>
+              <p>We are passionate about creating unique and personalized T-shirts and gifts. From custom T-shirts to printed mugs, pillows, keychains, and more, we strive to bring your ideas to life.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <h5>Contact Us</h5>
+              <ul class="list-unstyled">
+                <li> Address: Amravati, Maharashtra</li>
+                <li>Phone: 451454854</li>   
+                <li>Email: mizaanclassic@gmail.com</li>
+              </ul>
+            </div>
+            <div class="col-md-3">
+              <h5>Follow Us</h5>
+              <ul class="list-unstyled">
+                <li>Facebook:<a href="Your Facebook URL" class="text-white"> Mizaan Classic</a></li>
+                <li>Instagram:<a href="Your Instagram URL" class="text-white"> Mizaan_Classic</a></li>
+              </ul>
+            </div>  
+            <div class="col-md-3">
+              <h5>Quick Links</h5>
+              <ul class="list-unstyled">
+                <li><a href="/shop" class="text-white">Home</a></li>
+                <li><a href="/shop/about/" class="text-white">About Us</a></li>
+                <li><a href="/shop/contact/" class="text-white">Contact Us</a></li>
+                <li><a data-toggle="modal" data-target="#priv" class="text-white">Privacy Policy</a></li>
+              </ul>
+            </div>
+            <div class="col-md-3">
+              <h5>Payment Methods</h5>
+              <ul class="list-unstyled">
+                <li>Cash On Delivery</li>
+                <li>UPI</li>
+                <li>Bank Transfer</li>
+              </ul>
+            </div>
+          </div>
+         
+        </div>
+        <div class="" style="width: 100%;  background-color: #343a40; ">
+          <div class="col-md-12 text-center">
+            <p class="mb-0"  >© 2024 Mizaan Classic - All Rights Reserved.</p>
+          </div>
+        </div>
+      </footer>
+      
+      {% endblock %}
+    </footer>
+    
+  
+    
+  </body >
+
+
+</html>

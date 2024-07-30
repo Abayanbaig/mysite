@@ -1,0 +1,143 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %} this is order{% endblock %}
+  
+
+{% block body %} 
+<div class="container">
+  <h2 class="text-center">Place Order </h2>
+  <div class="row justify-content-center pt-3">
+      <!-- Product details -->
+      <div class="col-md-4 mb-4">
+        <div class="image-container">
+          <img src="{{ product.image.url }}" class="img-fluid" alt="Product Image">
+        </div>
+      </div>
+       <div class="col-md-6">
+        <div class="card p-4">
+          <h4 class="card-title">Product Details</h4>
+          <p class="text-muted"><strong>Product Name:</strong> {{ product.product_name }}</p>
+          <p class="text-muted"><strong>Category:</strong> {{ product.category }}</p>
+          <p class="text-muted">
+            <strong>Colour:</strong> {{ product.color }}<strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Size:</strong> 
+            {{ product.size_1st }} {{ product.size_2nd }} {{ product.size_3rd }} {{ product.size_4th }} {{ product.size }}
+          </p>
+          <p class="text-muted"><strong>Original Price:</strong> <s>&#8377; {{ product.discount }}.00</s></p>
+          <div class="price-section">
+            <h4 class="text-primary"><strong></strong> &#8377; {{ product.price }}.00</h4>
+            <p  style="color: red;"><strong> {{ product.outOfStock }}</strong> </p>
+            <p>{{ product.desc }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container my-5">
+    <h2>Order Details</h2>
+    <form action="/shop/order/{{ product.id }}/" method="post"> 
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <label for="allDesc">Product Details</label>
+        <input type="text" class="form-control" id="allDesc" name="allDesc"  value ="Product_Name: {{ product.product_name }}, Category : {{ product.category }} , Colour: {{ product.color }} ,Final Price :&#8377;{{ product.price}}.00, {{ product.desc }}" readonly>
+      </div>  
+      <div class="form-group">
+          <input type="hidden" name="imgPath" value="{{ product.image.url }}">                  
+      </div>  
+      
+      <div class="form-group">
+        <label for="allSize">Select Size</label>
+        <select id="allSize" class="form-control" name="allSize" required>
+            <option selected value="" disabled>Choose...</option>
+            {% if product.size_1st %}
+                <option>{{ product.size_1st }}</option>
+            {% else %}
+                <option disabled>Not Available{{ product.size_1st }}</option>
+            {% endif %}
+            {% if product.size_2nd %}
+                <option>{{ product.size_2nd }}</option>
+            {% else %}
+                <option disabled>Not Available{{ product.size_2nd }}</option>
+            {% endif %}
+            {% if product.size_3rd %}
+                <option>{{ product.size_3rd }}</option>
+            {% else %}
+                <option disabled>Not Available{{ product.size_3rd }} </option>
+            {% endif %}
+            {% if product.size_4th %}
+                <option>{{ product.size_4th }}</option>
+            {% else %}
+                <option disabled>Not Available{{ product.size_4th }}</option>
+            {% endif %}
+
+            
+            {% if product.size %}
+                <option>{{ product.size }}</option>
+            {% else %}
+                <option disabled>Not Available{{ product.size  }}</option>
+            {% endif %}
+            <!-- Add additional options similarly if needed -->
+        </select>
+    </div>
+    
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="firstName">First Name</label>
+          <input type="text" class="form-control" id="firstName" minlength="3" name="firstName" placeholder="First name" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="lastName">Last Name</label>
+          <input type="text" class="form-control" id="lastName" minlength="3" name="lastName" placeholder="Last name" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="phone">Phone</label>
+          <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter 10 digit number" pattern="\d{10}" title="Please enter exactly 10 digits" required>
+          <p class="text-muted">Enter a correct phone number. If it's not valid, you will not get a confirmation call.</p>
+   
+        </div>
+        <div class="form-group col-md-6">
+          <label for="alternate_phone">Alternate Phone</label>
+          <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter alternate phone number" pattern="\d{10}" title="Please enter exactly 10 digits"     >
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" minlength="10" title="Address must be at least 10 characters long" required>
+      </div>
+      <div class="form-group">
+        <label for="address2">Address 2</label>
+        <input type="text" class="form-control" id="address2" name="address2" placeholder="Apartment, studio, or floor">
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="city">City</label>
+          <input type="text" class="form-control" id="city" minlength="3" name="city" required>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="state">State</label>
+          <input type="text" id="state" class="form-control" minlength="3" name="state" required>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="pin">Pin</label>   
+          <input type="text" class="form-control" id="pin" name="pin"  pattern="\d{6}" title="Please enter exactly 6 digits" required> 
+        </div>
+      </div>
+      <label class="card-title">Payment Method</label>
+      <div class="card">
+        <div class="card-body">
+          <p class="card-text">
+            <strong>Description:</strong> You will receive a call from us to confirm your order. During the call, we will provide you with the payment options: online payment or cash on delivery. Please note that if the delivery location is far, additional delivery charges may apply.
+        </p>        
+      </div>
+    </div>
+      <button type="submit" class="btn btn-success">Place Order</button>
+    </form>
+  </div>
+  {% endblock %}
+
+{% comment %} {% block js %}
+<script>
+
+</script>
+
+{% endblock %} {% endcomment %}

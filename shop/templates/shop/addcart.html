@@ -1,0 +1,211 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %}This is cart{% endblock %}
+
+{% block body %}
+{% load static %}
+<!-- Modal body -->
+<div class="modal-body ">
+  <div style="text-align:center " id="totalP"></div>
+  <div class="container text-center">  
+    
+    <button id="clearCartBtn" class="btn btn-dark " >Clear Cart <i class='fa fa-trash-o'></i></button>
+    </div>
+  
+
+</div>
+
+
+<!-- Trigger Button -->
+
+
+
+
+<!-- Div to display the cart conten ts -->
+<div class="container my-5">
+    <div id="cartItemsDisplay"></div>
+</div>
+
+
+<!-- Related Products Section -->
+<div class="container my-5">
+    <h3 class="text-center mb-4">Cart Items</h3>
+
+    <div class="text-center mb-4" id="shopNow"></div>
+
+    <div style="text-align:center " id="viewItems">   
+    </div>
+    
+    <div class="row justify-content-center">
+        {% for i in allitems %}
+
+<!-- buying popup -->
+<div class="modal fade" id="pr{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Place Order</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+              <div class="modal-body text justify">
+                  <h6>Your order:</h6> {{i.product_name}}, {{i.desc}}, color - {{i.color}}. <strong> Price :</strong> &#8377;{{i.price}}
+              </div>
+          <div class="modal-footer">
+                <a href="/shop/order/{{i.id}}" class=" ml-3 mr-2"> <button  id="" class="btn w-100 w-md-auto buyHover ">Confirm Order </button>  </a>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+        <div class="col-6 col-sm-6 col-md-3 mb-3 related-product" data-id="{{i.id}}">
+            <div class="card">
+              
+                <a href="/shop/items/{{i.id}}">
+                    <img id="qv{{i.id}}" src="/media/{{i.image}}" class="card-img-top fitimg" alt="{{i.product_name}}">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title" id="namepr{{i.id}}">{{i.product_name}}</h5>
+                    <p class="card-text">{{ i.desc|slice:"0:29" }}...</p>
+
+                    <p class="text-muted"> <s>&#8377; {{ i.discount }}.00</s> </p>
+
+                    <p class="card-text" id="pricepr">Price: &#8377; {{i.price}} </p> 
+                    <p class="cart-quantity" id="quantity-pr{{i.id}}" ></p>
+                    
+                    
+                <div class="button-container d-flex flex-column flex-md-row gap-2">
+                
+                  <button id="del-pr{{i.id}}" class="btn btn-danger  w-md-auto mb-2 mb-md-0 mr-2 ml-3">Remove</button> 
+              
+                  <button type="button" class="btn btn-warning  w-md-auto mb-2 mb-md-0 mr-2 ml-3" data-toggle="modal" data-target="#pr{{i.id}}">
+                    Buy now
+                  </button>
+              
+              </div> 
+                
+                </div>               
+                
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+{% endblock %}
+{% comment %} 
+{% block js %}
+
+
+<script>
+
+
+
+
+
+
+
+
+// Clear Cart button handler
+document.getElementById('clearCartBtn').addEventListener('click', () => {
+  localStorage.removeItem('cart1');
+  updateCartDisplay();
+});
+
+// Function to get cart data from localStorage
+function getCartData() {
+  return JSON.parse(localStorage.getItem('cart1')) || {};
+}
+
+// Function to update the cart display in HTML
+function updateCartDisplay() {
+  const cart = getCartData();
+  const cartItemsDisplay = document.getElementById('cartItemsDisplay');
+  if (!cartItemsDisplay) return;
+
+  cartItemsDisplay.innerHTML = ''; // Clear previous display
+
+  const cartIDs = Object.keys(cart).map(key => key.replace('pr', ''));
+  cartIDs.forEach((id, index) => {
+    cartItemsDisplay.innerHTML += `<p><b>${index + 1}.</b> Item ID: ${id}</p>`;
+  });
+
+  displayRelatedProducts(cartIDs);
+}
+
+// Function to display related products based on cart items
+function displayRelatedProducts(cartIDs) {
+  const cartIDSet = new Set(cartIDs);
+
+  document.querySelectorAll('.related-product').forEach(product => {
+    const productID = product.dataset.id;
+
+    if (cartIDSet.has(productID)) {
+      product.style.display = "block"; // Show the product
+    } else {
+      product.style.display = "none"; // Hide the product
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  updateCartDisplay();
+
+  // Remove from cart button handler
+  document.querySelectorAll('.btn-danger').forEach(button => {
+    button.addEventListener('click', () => {
+      const idstr = button.id.replace('del-', '');
+      const cart = getCartData();
+
+      if (cart[idstr]) {
+        delete cart[idstr];
+        localStorage.setItem('cart1', JSON.stringify(cart));
+        updateCartDisplay();
+      }
+    });
+  });
+});
+
+
+
+
+
+
+
+
+
+  // adding cart values using local storage
+
+if(localStorage.getItem('cart1')== null){
+  var cart1 = {}
+}
+else{
+  cart1 = JSON.parse(localStorage.getItem('cart1'));
+  document.getElementById('cart1').innerHTML = Object.keys(cart1).length;
+}
+$('.cart1').click(function(){
+  console.log('clicked')
+
+  var idstr = this.id.toString();
+  console.log(idstr);
+
+  if(cart1[idstr] !=undefined){
+    cart1[idstr] = cart1[idstr] + 1;
+    console.log(cart1[idstr])
+  }
+  else{
+    cart1[idstr]= 1;
+  }
+  console.log(cart1);
+  localStorage.setItem('cart1', JSON.stringify(cart1));
+  document.getElementById('cart1').innerHTML = Object.keys(cart1).length;
+  
+}); 
+</script>
+{% endblock %} {% endcomment %}

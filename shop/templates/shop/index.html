@@ -1,0 +1,359 @@
+{% extends 'shop/basic.html' %}
+
+
+{% block body %}
+{% load static %}
+
+<div class="container ">
+
+  <!-- Header -->
+  <header class="w3-container w3-center w3-padding-48 " >
+    <h1 class="w3-xxxlarge" style="font-family: Oswald"><b>Mizaan Classic</b></h1>
+    <h6>Welcome to the printing <span class="w3-tag">Wearhouse</span></h6>
+      
+  </header>
+
+  <div id="demo" class="carousel slide my-3" data-ride="carousel">
+    
+    <ul class="carousel-indicators" >
+      <li data-target="#demo" data-slide-to="0" class="active"></li>
+      <li data-target="#demo" data-slide-to="1"></li>
+      <li data-target="#demo" data-slide-to="2"></li>
+
+    </ul>
+
+    <!-- Slide show starts here -->
+    <div class="container carousel-inner no-padding">
+      <div class="carousel-item active">
+        <div class="row justify-content-center">    
+          <img src="{% static 'shop/sl03.png' %}"  class="card-img-top abc "  alt="...">
+        </div>
+      </div>
+
+
+       <!-- Second slide  -->
+
+      <div class="carousel-item">
+        <div class="row justify-content-center">
+              <img src="{% static 'shop/sl01.png' %}"  class="card-img-top abc "  alt="...">
+        </div>
+      </div>
+
+      
+       <!-- Third slide  -->
+
+       <div class="carousel-item">
+        <div class="row justify-content-center">
+              <img src="{% static 'shop/sl02.png' %}"  class="card-img-top abc "  alt="...">
+        </div>
+      </div>
+
+
+    </div>
+    <div class="w3-display-middle ">
+      <a href="/shop/shopitems">
+        <button  class="btn btn-warning w3-hide-large" style="margin-top:-190px;white-space:nowrap;" >Shop Now </button>
+      </a>
+      <a href="/shop/shopitems">
+        <button  class="btn btn-warning w3-hide-medium w3-hide-small" style="margin-top:240px" >Shop Now </button>
+      </a>
+    </div> 
+    <!-- Left and right controls -->
+    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#demo" data-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </a>
+  </div>
+
+
+        <!-- Header -->
+  <header class="w3-display-container w3-content w3-center" style="max-width:1500px">
+  
+  <!-- <img class="abc3" src="{% static 'shop/banner2.jpg' %}" alt="Me" width="100%" height="150"> -->
+  
+  <!-- Navbar (placed at the bottom of the header image) -->
+  <!-- <div style="background-color:#f7b20e ; " class="w3-round w3-display-bottommiddle" > -->
+ 
+ 
+          <div class=" container">
+            <div class="row">
+                <div class="col-6 col-md-3 mb-2">
+                    <a href="#shirts" class="btn btn-warning btn-block">T-Shirt</a>
+                </div>
+                <div class="col-6 col-md-3 mb-2">
+                    <a href="#fullslives" class="btn btn-warning btn-block">Full Sleeves</a>
+                </div>
+                <div class="col-6 col-md-3 mb-2">
+                    <a href="#hoodies" class="btn btn-warning btn-block">Hoodies</a>
+                </div>
+                <div class="col-6 col-md-3 mb-2">
+                    <a href="#gift" class="btn btn-warning btn-block">Gift Items</a>
+                </div>
+            </div>
+        </div>
+
+  </header>
+
+    <!-- Check if the category is "T-shirts" -->
+
+  <div  class="my-4" id="shirts">
+   {% for catProducts in allProds %}
+
+    <!-- Check if the category is "T-shirts" -->
+    {% if catProducts.0.0.category == 'T-shirts' %}
+
+
+    <h2 style=" text-align: center; background-color:teal ; color:white ">T-Shirs</h2>
+
+      <div class="row justify-content-center">
+        {% for product in catProducts.0 %}
+
+        
+        <!-- Buying popup -->
+        <div class="modal fade" id="pr{{product.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Place Order</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                      <div class="modal-body text justify">
+                          <h6>Order Details:</h6> {{product.product_name}}, {{product.desc}}, colour - {{product.color}}. <strong> Price :</strong> &#8377;{{product.price}}
+                      </div>
+                  <div class="modal-footer">
+                        <a href="/shop/order/{{product.id}}" class=" ml-3 mr-2"> <button  id="" class="btn btn-warning w-100 w-md-auto  ">Confirm Order </button>  </a>
+                  </div>
+              </div>
+          </div>
+        </div>
+
+        
+      <div class="col-6 col-sm-6 col-md-3 mb-3">
+        <div class="card">
+                <a href="/shop/items/{{product.id}}">  <img src="{{ product.image.url }}" id="qv{{i.id}}" class="card-img-top abc2" alt="{{ product.product_name }}"></a>
+              <div class="card-body">
+                <h5 class="card-title">{{ product.product_name }}</h5>
+                
+                <p class="text-muted"> <s>&#8377; {{ product.discount }}.00</s> </p>
+                <p class="card-text">Price: &#8377; {{ product.price }}.00</p>
+       
+                <div class="button-container d-flex flex-column flex-md-row gap-2">
+                  <button id="pr{{product.id}}" class="btn btn-primary  w-md-auto mb-2 mb-md-0 mr-1 ml-1 cart1" data-toggle="modal" data-target="#myModal">Add to Cart</button> 
+                  
+                    
+                  <button  class="btn btn-warning w-md-auto mb-2 mb-md-0 mr-1 ml-1" data-toggle="modal" data-target="#pr{{product.id}}">&nbsp;Buy now&nbsp;</button>
+                  
+              </div> 
+            </div>
+        </div>
+    </div>
+        {% endfor %}
+      
+    </div>
+  
+    </div>
+    {% endif %}
+    {% endfor %}
+
+
+    <!-- Check if the category is "full slives" -->
+
+    <div   id="fullslives">
+      {% for catProducts in allProds %}
+    
+        <!-- Check if the category is "T-shirts" -->
+        {% if catProducts.0.0.category == 'Fullsleeves' %}
+    
+      <h2 style="text-align: center; background-color:teal ; color:white">Full Slives</h2>
+          <div class="row justify-content-center">
+            {% for product in catProducts.0 %}
+
+        <!-- Buying popup -->
+        <div class="modal fade" id="pr{{product.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Place Order</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                      <div class="modal-body text justify">
+                          <h6>Order Details:</h6> {{product.product_name}}, {{product.desc}}, color - {{product.color}}. <strong> Price :</strong> &#8377;{{product.price}}
+                      </div>
+                  <div class="modal-footer">
+                        <a href="/shop/order/{{product.id}}" class=" ml-3 mr-2"> <button  id="" class="btn btn-warning w-100 w-md-auto  ">Confirm Order </button>  </a>
+                  </div>
+              </div>
+          </div>
+        </div>
+
+
+            <div class="col-6 col-sm-6 col-md-3 mb-3 ">
+              <div class="card" >
+                <a href="/shop/items/{{product.id}}">  <img src="{{ product.image.url }}" id="qv{{i.id}}" class="card-img-top abc2" alt="{{ product.product_name }}"></a>
+                <div class="card-body">
+                  <h5 class="card-title">{{ product.product_name }}</h5>
+                  
+                  <p class="text-muted"> <s>&#8377; {{ product.discount }}.00</s> </p>
+                  <p class="card-text">Price: &#8377; {{ product.price }}.00</p>
+                <div class="button-container d-flex flex-column flex-md-row gap-2">
+                  <button id="pr{{product.id}}" class="btn btn-primary  w-md-auto mb-2 mb-md-0 mr-1 ml-1 cart1" data-toggle="modal" data-target="#myModal">Add to Cart</button> 
+                  
+                    
+                  <button  class="btn btn-warning w-md-auto mb-2 mb-md-0 mr-1 ml-1" data-toggle="modal" data-target="#pr{{product.id}}">&nbsp;Buy now&nbsp;</button>
+                  
+              </div> 
+        
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        
+      
+      {% endif %}
+      {% endfor %}
+    </div>
+
+    <!-- Check if the category is "hoodies" -->
+
+  <div class=""  id="hoodies">
+  {% for catProducts in allProds %}
+
+    <!-- Check if the category is "hoodies" -->
+    {% if catProducts.0.0.category == 'Hoodie' %}
+
+  <h2 style="text-align: center; background-color:teal ; color:white">Hoodies</h2>
+
+    
+      <div class="row justify-content-center">
+        {% for product in catProducts.0 %}
+
+        <!-- Buying popup -->
+        <div class="modal fade" id="pr{{product.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Place Order</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                      <div class="modal-body text justify">
+                          <h6>Order Details:</h6> {{product.product_name}}, {{product.desc}}, color - {{product.color}}. <strong> Price :</strong> &#8377;{{product.price}}
+                      </div>
+                  <div class="modal-footer">
+                        <a href="/shop/order/{{product.id}}" class=" ml-3 mr-2"> <button  id="" class="btn btn-warning w-100 w-md-auto  ">Confirm Order </button>  </a>
+                  </div>
+              </div>
+          </div>
+        </div>
+
+
+        <div class="col-6 col-sm-6 col-md-3 mb-3 ">
+          <div class="card" >
+            <a href="/shop/items/{{product.id}}">  <img src="{{ product.image.url }}" id="qv{{i.id}}" class="card-img-top abc2" alt="{{ product.product_name }}"></a>
+            <div class="card-body">
+              <h5 class="card-title">{{ product.product_name }}</h5>
+              
+          <p class="text-muted"> <s>&#8377; {{ product.discount }}.00</s> </p>
+              <p class="card-text">Price: &#8377; {{ product.price }}.00</p>
+
+              <div class="button-container d-flex flex-column flex-md-row gap-2">
+                <button id="pr{{product.id}}"  class="btn btn-primary  w-md-auto mb-2 mb-md-0 mr-1 ml-1 cart1" data-toggle="modal" data-target="#myModal">Add to Cart</button> 
+               
+                <button type="button" class="btn btn-warning mr-1 ml-1" data-toggle="modal" data-target="#pr{{product.id}}">
+                  Buy now
+                </button>
+    
+              </div>
+                
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    
+  
+  
+  {% endif %}
+  {% endfor %}
+  </div>
+
+
+  
+    <!-- Check if the category is "gift ietms" -->
+
+    <div  class="my-4" id="gift">
+      {% for catProducts in allProds %}
+   
+       <!-- Check if the category is "gift ietms" -->
+       {% if catProducts.0.0.category == 'gift' %}
+   
+   
+       <h2 style=" text-align: center; background-color:teal ; color:white ">Gift-Items</h2>
+   
+         <div class="row justify-content-center">
+           {% for product in catProducts.0 %}
+   
+           
+           <!-- Buying popup -->
+           <div class="modal fade" id="pr{{product.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+             <div class="modal-dialog">
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         <h5 class="modal-title" id="exampleModalLabel">Place Order</h5>
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                             <span aria-hidden="true">&times;</span>
+                         </button>
+                     </div>
+                         <div class="modal-body text justify">
+                             <h6>Order Details:</h6> {{product.product_name}}, {{product.desc}}, colour - {{product.color}}. <strong> Price :</strong> &#8377;{{product.price}}
+                         </div>
+                     <div class="modal-footer">
+                           <a href="/shop/order/{{product.id}}" class=" ml-3 mr-2"> <button  id="" class="btn btn-warning w-100 w-md-auto  ">Confirm Order </button>  </a>
+                     </div>
+                 </div>
+             </div>
+           </div>
+   
+           
+         <div class="col-6 col-sm-6 col-md-3 mb-3">
+           <div class="card">
+                   <a href="/shop/items/{{product.id}}">  <img src="{{ product.image.url }}" id="qv{{i.id}}" class="card-img-top abc2" alt="{{ product.product_name }}"></a>
+                 <div class="card-body">
+                   <h5 class="card-title">{{ product.product_name }}</h5>
+                   
+                   <p class="text-muted"> <s>&#8377; {{ product.discount }}.00</s> </p>
+                   <p class="card-text">Price: &#8377; {{ product.price }}.00</p>
+          
+                   <div class="button-container d-flex flex-column flex-md-row gap-2">
+                     <button id="pr{{product.id}}" class="btn btn-primary  w-md-auto mb-2 mb-md-0 mr-1 ml-1 cart1" data-toggle="modal" data-target="#myModal">Add to Cart</button> 
+                     
+                       
+                     <button  class="btn btn-warning w-md-auto mb-2 mb-md-0 mr-1 ml-1" data-toggle="modal" data-target="#pr{{product.id}}">&nbsp;Buy now&nbsp;</button>
+                     
+                 </div> 
+               </div>
+           </div>
+       </div>
+           {% endfor %}
+         
+       </div>
+     
+       </div>
+       {% endif %}
+       {% endfor %}
+   
+   
+
+</div>
+</div>
+  
+{% endblock %}  
+    
